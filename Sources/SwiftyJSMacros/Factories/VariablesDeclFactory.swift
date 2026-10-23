@@ -22,7 +22,7 @@ struct VariablesImplementationFactory {
     private func protocolVariableDeclarationWithGetterAndSetter(binding: PatternBindingListSyntax.Element) throws -> DeclSyntaxProtocol {
         let identifierText = binding.pattern.as(IdentifierPatternSyntax.self)?.identifier.text ?? ""
         let identifierType = identifierType(binding: binding)
-        let throwsSpecifier = binding.as(PatternBindingSyntax.self)?.accessorBlock?.accessors.as(AccessorDeclListSyntax.self)?.first?.effectSpecifiers?.throwsSpecifier?.text
+        let throwsSpecifier = binding.accessorBlock?.accessors.as(AccessorDeclListSyntax.self)?.first?.effectSpecifiers?.throwsClause?.throwsSpecifier.text
 
         if throwsSpecifier != "throws" {
             throw SwiftyJSDiagnostic.variablesGetterMustBeThrowable
@@ -56,19 +56,19 @@ struct VariablesImplementationFactory {
     }
 
     private func identifierType(binding: PatternBindingListSyntax.Element) -> String {
-        if let identifierType = binding.as(PatternBindingSyntax.self)?.typeAnnotation?.type.as(OptionalTypeSyntax.self)?.wrappedType.as(IdentifierTypeSyntax.self)?.name.text {
+        if let identifierType = binding.typeAnnotation?.type.as(OptionalTypeSyntax.self)?.wrappedType.as(IdentifierTypeSyntax.self)?.name.text {
             return identifierType + "?"
         }
         
-        if let identifierType = binding.as(PatternBindingSyntax.self)?.typeAnnotation?.type.as(IdentifierTypeSyntax.self)?.name.text {
+        if let identifierType = binding.typeAnnotation?.type.as(IdentifierTypeSyntax.self)?.name.text {
             return identifierType
         }
 
-        if let identifierType = binding.as(PatternBindingSyntax.self)?.typeAnnotation?.type.as(ArrayTypeSyntax.self)?.element.as(IdentifierTypeSyntax.self)?.name.text {
+        if let identifierType = binding.typeAnnotation?.type.as(ArrayTypeSyntax.self)?.element.as(IdentifierTypeSyntax.self)?.name.text {
             return "[\(identifierType)]"
         }
 
-        if let identifierType = binding.as(PatternBindingSyntax.self)?.typeAnnotation?.type.as(ArrayTypeSyntax.self)?.element.as(OptionalTypeSyntax.self)?.wrappedType.as(IdentifierTypeSyntax.self)?.name.text {
+        if let identifierType = binding.typeAnnotation?.type.as(ArrayTypeSyntax.self)?.element.as(OptionalTypeSyntax.self)?.wrappedType.as(IdentifierTypeSyntax.self)?.name.text {
             return "[\(identifierType)?]"
         }
 

@@ -35,7 +35,7 @@ protocol DataPlugin {
 }
 
 class DataPluginJSBridge: DataPlugin {
-    private (set) var jsContext = JSContext()!
+    private(set) var jsContext = JSContext()!
     private let encoder = JSValueEncoder()
     private let decoder = JSValueDecoder()
 
@@ -180,6 +180,7 @@ class DataPluginJSBridge: DataPlugin {
 
         return error
     }
+
     var test: [String] {
         get throws {
           guard let result = jsContext.objectForKeyedSubscript("test") else {

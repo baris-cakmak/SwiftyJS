@@ -51,7 +51,7 @@ protocol DataPlugin {
 }
 
 class DataPluginJSBridge: DataPlugin {
-    private (set) var jsContext = JSContext()!
+    private(set) var jsContext = JSContext()!
     private let encoder = JSValueEncoder()
     private let decoder = JSValueDecoder()
 
@@ -196,6 +196,7 @@ class DataPluginJSBridge: DataPlugin {
 
         return error
     }
+
     func createUser() throws {
         try callJS(params: [])
     }
@@ -208,7 +209,7 @@ protocol DataPlugin {
 }
 
 class DataPluginJSBridge: DataPlugin {
-    private (set) var jsContext = JSContext()!
+    private(set) var jsContext = JSContext()!
     private let encoder = JSValueEncoder()
     private let decoder = JSValueDecoder()
 
@@ -353,6 +354,7 @@ class DataPluginJSBridge: DataPlugin {
 
         return error
     }
+
     func createUser() async throws {
         try await callJS(params: [])
     }

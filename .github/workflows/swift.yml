@@ -1,37 +1,17 @@
-# This workflow will build a Swift project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
-
 name: Swift
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main", "codex/swiftsyntax-602"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-    runs-on: macos-latest
-
+    runs-on: macos-26
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Select Xcode 14.2
-      run: sudo xcode-select -s /Applications/Xcode_14.2.app
-
-    - uses: swift-actions/setup-swift@v1
-
-      # SPM Packages Cache
-    - uses: actions/cache@v3
-      name: Cache SPM Packages
-      with:
-        path: /Users/runner/work/SwiftyJS/SwiftyJS/
-        key: ${{ runner.os }}-spm-${{ hashFiles('Package.resolved') }}
-        restore-keys: |
-          ${{ runner.os }}-spm-
-
-    - name: Build
-      run: swift build -v
-      
-    - name: Run tests
-      run: swift test -v
+      - uses: actions/checkout@v4
+      - name: Build
+        run: swift build
+      - name: Macro and JavaScript runtime tests
+        run: swift test
